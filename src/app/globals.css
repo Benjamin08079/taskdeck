@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Dark mode is controlled by a .dark class on <html>, which an inline script in
+   layout.tsx sets before paint (persisted in localStorage, falls back to the
+   OS preference). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-space);
+  --font-mono: var(--font-plex);
+}
+
+:root {
+  --brutal-border: #17130f;
+  --brutal-shadow: #17130f;
+  --brutal-bg: #f3efe6;
+  --brutal-surface: #ffffff;
+  --brutal-text: #17130f;
+  --brutal-dot: rgba(23, 19, 15, 0.13);
+}
+
+.dark {
+  --brutal-border: #ede9df;
+  --brutal-shadow: #a3e635;
+  --brutal-bg: #12100c;
+  --brutal-surface: #1c1915;
+  --brutal-text: #f3efe6;
+  --brutal-dot: rgba(237, 233, 223, 0.09);
+}
+
+/* Dot-grid paper texture behind the board. */
+body {
+  background-image: radial-gradient(var(--brutal-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Neo-brutalist primitives: hard borders, offset shadows, square corners. */
+@utility brutal {
+  border: 2px solid var(--brutal-border);
+  box-shadow: 4px 4px 0 0 var(--brutal-shadow);
+}
+
+@utility brutal-sm {
+  border: 2px solid var(--brutal-border);
+  box-shadow: 2px 2px 0 0 var(--brutal-shadow);
+}
+
+@utility b2 {
+  border: 2px solid var(--brutal-border);
+}
