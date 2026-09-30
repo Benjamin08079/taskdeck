@@ -142,6 +142,7 @@ function TaskCard({
   const [priority, setPriority] = useState<Priority>(task.priority);
   const [dueDate, setDueDate] = useState(task.dueDate ?? "");
   const [saving, setSaving] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   async function save() {
     if (saving) return;
@@ -277,11 +278,22 @@ function TaskCard({
           <button
             type="button"
             onClick={() => {
-              if (window.confirm("Delete this task?")) onDelete(task.id);
+              if (confirming) {
+                onDelete(task.id);
+                return;
+              }
+              setConfirming(true);
+              setTimeout(() => setConfirming(false), 3000);
             }}
-            className={`${miniBtn} hover:bg-red-400`}
+            aria-label={confirming ? "Confirm delete task" : "Delete task"}
+            title={confirming ? "Click again to delete" : "Delete task"}
+            className={
+              confirming
+                ? "b2 bg-red-400 px-2 py-1 font-mono text-[10px] font-semibold uppercase text-black"
+                : miniBtn
+            }
           >
-            Del
+            {confirming ? "Sure?" : "Del"}
           </button>
         </div>
       </div>

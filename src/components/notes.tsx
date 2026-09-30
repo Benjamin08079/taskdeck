@@ -71,6 +71,7 @@ function NoteCard({
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
   const [saving, setSaving] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   async function save() {
     if (saving) return;
@@ -145,11 +146,22 @@ function NoteCard({
           <button
             type="button"
             onClick={() => {
-              if (window.confirm("Delete this note?")) onDelete(note.id);
+              if (confirming) {
+                onDelete(note.id);
+                return;
+              }
+              setConfirming(true);
+              setTimeout(() => setConfirming(false), 3000);
             }}
-            className={`${miniBtn} hover:bg-red-400`}
+            aria-label={confirming ? "Confirm delete note" : "Delete note"}
+            title={confirming ? "Click again to delete" : "Delete note"}
+            className={
+              confirming
+                ? "b2 bg-red-400 px-2 py-1 font-mono text-[10px] font-semibold uppercase text-black"
+                : miniBtn
+            }
           >
-            Del
+            {confirming ? "Sure?" : "Del"}
           </button>
         </div>
       </div>
